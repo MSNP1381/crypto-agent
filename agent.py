@@ -3,11 +3,11 @@ import requests
 from datetime import datetime
 
 # تنظیمات OpenRouter با API Key به صورت مستقیم
-api_key = "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"
+api_key = "YOUR_OPENROUTER_API_KEY"  # Replace with your actual OpenRouter API key
 base_url = "https://openrouter.ai/api/v1"
 
 # NewsAPI Key (شما باید API Key خود را از NewsAPI بگیرید)
-news_api_key = "91297ee8d0e547869a966441772e4e22"
+news_api_key = "YOUR_API_NEWS_KEY"  # Replace with your actual NewsAPI key
 news_base_url = "https://newsapi.org/v2/everything"
 
 # تابع برای جستجوی اخبار از NewsAPI
@@ -84,6 +84,10 @@ async def analyze_market():
     # ارسال درخواست به OpenRouter
     response = requests.post(f"{base_url}/chat/completions", headers=headers, json=data)
 
+    # چاپ کامل پاسخ برای دیباگ
+    print(f"OpenRouter Response Status: {response.status_code}")
+    print("OpenRouter Response Body: ", response.text)
+
     if response.status_code == 200:
         # اگر درخواست موفقیت‌آمیز بود
         result = response.json()
@@ -120,8 +124,8 @@ Here are the latest headlines related to the cryptocurrency market:
 {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 """
 
-            # ذخیره خروجی در فایل Markdown
-            with open("cryptocurrency_analysis.md", "w") as f:
+            # ذخیره خروجی در فایل README.md
+            with open("README.md", "w") as f:
                 f.write(markdown_output)
 
             return market_analysis
