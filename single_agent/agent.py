@@ -1,113 +1,146 @@
-from google.adk.agents import Agent
-from google.adk.runners import Runner
-from google.adk.sessions import InMemorySessionService
-from google.adk.tools import google_search
-from google.genai import types
+import asyncio
+import requests
+from datetime import datetime
 
-APP_NAME="google_search_agent"
-USER_ID="user1234"
-SESSION_ID="1234"
+# تنظیمات OpenRouter با API Key به صورت مستقیم
+api_key = "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"
+base_url = "https://openrouter.ai/api/v1"
 
+# NewsAPI Key (شما باید API Key خود را از NewsAPI بگیرید)
+news_api_key = "91297ee8d0e547869a966441772e4e22"
+news_base_url = "https://newsapi.org/v2/everything"
 
-root_agent = Agent(
-    name="basic_search_agent",
-    model="gemini-2.5-flash-preview-04-17",
-    description="Agent to answer questions using Google Search.",
-    instruction="""\
-You are "CryptoStrategist AI," an advanced AI agent specializing in cryptocurrency market analysis and portfolio construction. Your primary objective is to identify and propose a combination of cryptocurrencies with the highest potential for profit maximization for the user, based on your (simulated) access to extensive market data, trend analysis tools, project research databases, and sentiment analysis capabilities.
+# تابع برای جستجوی اخبار از NewsAPI
+def search_for_news(query="cryptocurrency market"):
+    """
+    جستجو برای اخبار مرتبط با ارز دیجیتال از NewsAPI
+    """
+    url = f"{news_base_url}?q={query}&apiKey={news_api_key}"
+    response = requests.get(url)
 
-**CRITICAL INSTRUCTION: Before proposing ANY specific cryptocurrency combination, you MUST first provide a detailed, step-by-step reasoning process. This reasoning is paramount and should clearly articulate your analysis and justification.**
+    if response.status_code == 200:
+        news_data = response.json()
+        articles = news_data.get("articles", [])
+        news_info = []
 
-Your reasoning process should cover the following aspects:
+        # فقط لینک اخبار را نمایش می‌دهیم
+        for article in articles[:5]:  # نمایش فقط 5 تیتر اول
+            title = article.get("title")
+            published_at = article.get("publishedAt")
+            url = article.get("url")  # لینک خبر
+            news_info.append((title, published_at, url))
 
-1.  **Current Market Outlook:** Briefly summarize your assessment of the current overall cryptocurrency market sentiment and key trends (e.g., bullish, bearish, consolidating, specific narratives gaining traction like AI, DePIN, RWA, Gaming, etc.).
-2.  **Selection Methodology:** Explain the criteria and methodology you will use to select the cryptocurrencies. This might include:
-    *   Fundamental analysis (project's technology, team, tokenomics, use case, adoption, community strength, partnerships).
-    *   Technical analysis (chart patterns, key support/resistance levels, momentum indicators – if you can simulate this).
-    *   Narrative strength and potential for hype/FOMO.
-    *   Upcoming catalysts (e.g., mainnet launches, significant partnerships, token unlocks/burns, airdrops).
-    *   Risk assessment (even though the goal is profit maximization, acknowledge the inherent risks and how your choices might reflect a certain risk appetite).
-3.  **Individual Cryptocurrency Analysis (for each considered candidate BEFORE final selection):**
-    *   **Name & Ticker:**
-    *   **Core Rationale for Potential Profit:** Why do you believe this specific coin has high profit potential in the current environment?
-    *   **Key Strengths & Catalysts:** What makes it stand out?
-    *   **Potential Risks & Downsides:** What are the specific risks associated with this coin?
-    *   **Relevance to Current Market/Narrative:** How does it fit into the current market trends you identified?
-4.  **Portfolio Synergy & Diversification (Briefly):** After analyzing individual candidates, explain how your *intended* final selection might complement each other (e.g., different sectors, risk profiles, market cap sizes) or if you are intentionally concentrating on a specific high-conviction narrative.
+        return news_info
+    else:
+        print(f"Error fetching news: {response.status_code}")
+        return []
 
-**ONLY AFTER you have provided this comprehensive reasoning, proceed to propose the cryptocurrency combination.**
+# تابع برای ارسال درخواست به OpenRouter
+async def analyze_market():
+    # تنظیم هدرهای درخواست
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "X-Title": "<YOUR_SITE_NAME>",  # Optional: Site title for rankings on openrouter.ai
+        "HTTP-Referer": "<YOUR_SITE_URL>"  # Optional: Site URL for rankings on openrouter.ai
+    }
 
-When proposing the combination:
+    # داده‌هایی که باید به API ارسال شوند
+    data = {
+        "model": "google/gemini-2.0-flash-001",  # مدل مورد استفاده
+        "messages": [
+            {
+                "role": "user",
+                "content": """
+                You are an advanced cryptocurrency strategist AI tasked with maximizing profit in a volatile market. 
+                Based on the latest market sentiment, trends, financial indicators, and real-time news, analyze and suggest 
+                the top 3 cryptocurrencies to buy this week, and also provide exact dates for the optimal time to sell to maximize profit.
+                
+                Your analysis should include:
+                
+                1. **Current Market Outlook**: Assess whether the market is bullish, bearish, or consolidating.
+                2. **Selection Methodology**: Explain how you selected these cryptocurrencies, including:
+                   - **Fundamental analysis** (technology, team, tokenomics, use case, adoption, partnerships).
+                   - **Technical analysis** (chart patterns, support/resistance levels).
+                   - **Sentiment analysis** (based on news, trends, and public sentiment).
+                   - **Upcoming catalysts** (mainnet launches, partnerships, token unlocks, etc.).
+                   - **Risk assessment** (volatility, regulatory challenges, etc.).
+                3. **Cryptocurrency Analysis**: Provide a detailed breakdown of each cryptocurrency, including:
+                   - **Core rationale for potential profit**: Why is this cryptocurrency expected to perform well this week?
+                   - **Key strengths & catalysts**: What are the market-moving events for this coin?
+                   - **Risks & potential downsides**: What are the risks of investing in this coin?
+                   - **Relevance to the current market narrative**: How does it fit with current market trends?
+                4. **Portfolio Recommendation**: Suggest the best portfolio of these top 3 cryptocurrencies, including allocation percentages (e.g., BTC 40%, ETH 30%, Alt-X 30%).
+                5. **Time Horizon**: Your analysis should suggest a time horizon for each of the cryptocurrencies (short-term, mid-term).
+                
+                Make sure your recommendations are based on real-time data, trends, and news. Focus on maximizing profit potential for this week.
+                
+                **Please provide the result in a clean Markdown format for easy reading and interpretation.** Additionally, include the **last update date** at the end of the document.
+                """
+            }
+        ]
+    }
 
-*   **List the Cryptocurrencies:** Clearly state the names and tickers.
-*   **Suggested Allocation (Optional but Recommended):** If appropriate, suggest a percentage allocation for each cryptocurrency in the combination (e.g., BTC 40%, ETH 30%, ALT-X 15%, ALT-Y 15%). Justify these allocations briefly.
-*   **Concise Rationale for Each Choice in the Portfolio:** Briefly reiterate the primary reason each selected cryptocurrency is included in the *final* portfolio.
-*   **Expected Time Horizon (Implicit/Optional):** Your analysis should implicitly suggest a time horizon (e.g., short-term speculative, mid-term growth). If you can make this explicit, please do.
-*   **Disclaimer:** Conclude with a standard disclaimer that this is not financial advice and users should do their own research (DYOR) and understand the high risks involved in cryptocurrency investments.
+    # ارسال درخواست به OpenRouter
+    response = requests.post(f"{base_url}/chat/completions", headers=headers, json=data)
 
-**Constraints & Guidelines:**
+    if response.status_code == 200:
+        # اگر درخواست موفقیت‌آمیز بود
+        result = response.json()
 
-*   Focus on maximizing profit potential. This may involve selecting higher-risk, higher-reward assets, but your reasoning must justify this.
-*   Your analysis should be based on information that would be plausibly available up to your last knowledge update.
-*   Avoid overly obscure or unvetted "meme coins" unless there's an exceptionally strong, data-backed rationale for their short-term profit potential.
-*   Be objective and analytical.
+        # بررسی اینکه کلید 'choices' موجود است
+        if 'choices' in result:
+            market_analysis = result['choices'][0]['message']['content']
 
-**Example Interaction Flow (User -> You):**
+            # جستجو برای تیتر اخبار و تاریخ آن‌ها
+            news_data = search_for_news()  # تابع جستجوی اخبار
+            if news_data:
+                print("News Search: Done")  # اعلام موفقیت در جستجوی اخبار
 
-*User:* "CryptoStrategist AI, please give me a combination of cryptocurrencies to maximize my profit."
+            # چاپ مصرف توکن
+            print("OpenRouter Token Usage:")
+            print(f"Prompt Tokens: {result['usage']['prompt_tokens']}, Completion Tokens: {result['usage']['completion_tokens']}, Total Tokens: {result['usage']['total_tokens']}")
 
-*You:*
-"Understood. I will now conduct my analysis to identify a cryptocurrency combination with high profit potential. My process will be as follows:
-1.  Assess the current market outlook.
-2.  Define my selection methodology.
-3.  Analyze individual candidate cryptocurrencies.
-4.  Consider portfolio synergy.
+            # به‌روز کردن خروجی در قالب Markdown
+            markdown_output = f"""
+# 📈 Cryptocurrency Market Analysis for the Next Week
 
-Here is my detailed reasoning:
+## 📰 Latest News Headlines for the Week:
+Here are the latest headlines related to the cryptocurrency market:
+"""
+            for title, date, url in news_data:
+                markdown_output += f"\n1. **{title}**  \n   *Date*: {date}  \n   *Link*: [Read more]({url})"
 
-**1. Current Market Outlook:**
-[Your detailed analysis of market conditions...]
+            markdown_output += f"""
 
-**2. Selection Methodology:**
-[Your explanation of criteria: fundamentals, technicals, narrative, catalysts, risk...]
+## **Market Analysis**:
+{market_analysis}
 
-**3. Individual Cryptocurrency Analysis (Candidates):**
-*   **Bitcoin (BTC):**
-    *   **Core Rationale:** [e.g., Market leader, potential ETF inflows, store of value narrative...]
-    *   **Strengths & Catalysts:** [e.g., Halving event, institutional adoption...]
-    *   **Risks:** [e.g., Regulatory uncertainty, high energy consumption FUD...]
-    *   **Relevance:** [e.g., Acts as market bellwether...]
-*   **Ethereum (ETH):**
-    *   **Core Rationale:** [...]
-    *   **Strengths & Catalysts:** [...]
-    *   **Risks:** [...]
-    *   **Relevance:** [...]
-*   **Altcoin X (ALTX):**
-    *   **Core Rationale:** [e.g., Strong upcoming narrative in AI, strong team, low market cap with high growth potential...]
-    *   **Strengths & Catalysts:** [e.g., Mainnet v2 launch next month, partnership with BigTech Co...]
-    *   **Risks:** [e.g., Highly speculative, dependent on narrative holding...]
-    *   **Relevance:** [e.g., Taps into the current AI hype cycle...]
-*   [...more candidates as needed...]
+## Last Updated:
+{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+"""
 
-**4. Portfolio Synergy & Diversification Strategy:**
-[Explanation of how the chosen coins will work together, or if it's a concentrated bet...]
+            # ذخیره خروجی در فایل Markdown
+            with open("cryptocurrency_analysis.md", "w") as f:
+                f.write(markdown_output)
 
----
+            return market_analysis
+        else:
+            return "Error: 'choices' not found in the response."
+    else:
+        print(f"Error: {response.status_code}")
+        return f"Error: {response.status_code}"
 
-Now that I have laid out my reasoning, here is the proposed cryptocurrency combination for maximizing profit:
+async def get_cryptocurrency_recommendations():
+    # دریافت و پردازش تحلیل بازار و اخبار
+    market_analysis = await analyze_market()
+    
+    # فقط نمایش پاسخ نهایی
+    print(f"\n📈 Cryptocurrency Recommendation for the next 1 week:\n{market_analysis}")
+    
+    return market_analysis
 
-**Proposed Cryptocurrency Combination:**
-
-*   **1. Bitcoin (BTC):** [Allocation %] - Rationale: [Concise reason]
-*   **2. Altcoin X (ALTX):** [Allocation %] - Rationale: [Concise reason]
-*   **3. Altcoin Y (ALTY):** [Allocation %] - Rationale: [Concise reason]
-
-**Expected Time Horizon:** [e.g., This portfolio is geared towards potential gains over the next 3-6 months.]
-
-**Disclaimer:** Please remember that cryptocurrency investments are highly volatile and risky. This information is for educational purposes only and should not be considered financial advice. Always do your own thorough research (DYOR) before making any investment decisions."
-
-""",
-    # google_search is a pre-built tool which allows the agent to perform Google searches.
-    tools=[google_search]
-)
+if __name__ == "__main__":
+    # اجرای غیرهمزمان برای تحلیل بازار
+    asyncio.run(get_cryptocurrency_recommendations())
 

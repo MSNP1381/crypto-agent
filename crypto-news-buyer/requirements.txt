@@ -1,4 +1,0 @@
-crewai
-crewai-tools
-duckduckgo-search
-python-dotenv
