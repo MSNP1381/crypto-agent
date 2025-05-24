@@ -1,0 +1,124 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 15%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 221 83% 60%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 217 71% 65%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 221 83% 60%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 222 47% 14%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 221 83% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217.2 32.6% 20%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217.2 32.6% 20%;
+    --sidebar-ring: 221 83% 70%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-crypto-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Custom scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary));
+  }
+
+  /* Mark text for code blocks */
+  pre {
+    @apply bg-crypto-card p-4 rounded-lg overflow-x-auto my-2;
+  }
+  
+  code {
+    @apply font-mono text-sm;
+  }
+
+  /* Markdown styling */
+  .markdown h1 {
+    @apply text-3xl font-bold mt-8 mb-4;
+  }
+  
+  .markdown h2 {
+    @apply text-2xl font-semibold mt-6 mb-3 text-crypto-secondary;
+  }
+  
+  .markdown h3 {
+    @apply text-xl font-medium mt-4 mb-2;
+  }
+  
+  .markdown p {
+    @apply my-3;
+  }
+  
+  .markdown ul {
+    @apply list-disc pl-6 my-3;
+  }
+  
+  .markdown ol {
+    @apply list-decimal pl-6 my-3;
+  }
+  
+  .markdown a {
+    @apply text-crypto-primary hover:underline;
+  }
+  
+  .markdown blockquote {
+    @apply border-l-4 border-crypto-primary pl-4 italic my-4;
+  }
+}
+
+/* Animation for loading state */
+.loading-pulse {
+  @apply animate-pulse-slow;
+}

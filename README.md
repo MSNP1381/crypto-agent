@@ -1,107 +1,255 @@
 
-# 📈 Cryptocurrency Market Analysis for the Next Week
+# 📈 Crypto View Analyzer
 
-## 📰 Latest News Headlines for the Week:
-Here are the latest headlines related to the cryptocurrency market:
+> AI-powered cryptocurrency market analysis and recommendations platform
 
-1. **Celsius founder Alex Mashinsky sentenced to 12 years in prison**  
-   *Date*: 2025-05-08T21:25:25Z  
-   *Link*: [Read more](https://www.theverge.com/news/663877/celsius-founder-alex-mashinsky-12-years-sentenced)
-1. **Freight Company Tells SEC It Needs Millions in $TRUMP to Get Access to the President**  
-   *Date*: 2025-05-06T18:10:22Z  
-   *Link*: [Read more](https://gizmodo.com/freight-company-tells-sec-it-needs-millions-in-trump-to-get-access-to-the-president-2000598631)
-1. **PayPal Partners With Coinbase and Rolls Out Rewards System for PYUSD Holders**  
-   *Date*: 2025-04-24T21:31:00Z  
-   *Link*: [Read more](https://www.cnet.com/personal-finance/paypal-partners-with-coinbase-and-rolls-out-rewards-system-for-pyusd-holders/)
-1. **Swiss National Bank Chairman Rebuffs Bitcoin as Reserve Asset**  
-   *Date*: 2025-04-25T18:45:00Z  
-   *Link*: [Read more](https://slashdot.org/story/25/04/25/1818257/swiss-national-bank-chairman-rebuffs-bitcoin-as-reserve-asset)
-1. **Dutch neobank Bunq launches crypto trading service**  
-   *Date*: 2025-04-29T19:00:50Z  
-   *Link*: [Read more](https://thenextweb.com/news/dutch-neobank-bunq-launches-crypto-trading-service)
+[![Last Analysis](https://img.shields.io/badge/Last%20Analysis-2025--05--22-blue)](README.md)
+[![Python](https://img.shields.io/badge/Python-3.8+-green)](https://python.org)
+[![React](https://img.shields.io/badge/React-18.3+-blue)](https://reactjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue)](https://typescriptlang.org)
 
-## **Market Analysis**:
-Okay, I'm locked in. Let's analyze the cryptocurrency market and identify the top 3 cryptocurrencies for potential profit this week. Below is my assessment based on the available information. Remember, cryptocurrency markets are inherently risky, and this is not financial advice. This strategy focuses on potential for short-term gains, given current market dynamics.
+## 🚀 What is Crypto View Analyzer?
 
-**Last Update Date: October 27, 2023, 12:00 PM PST**
+Crypto View Analyzer is an advanced cryptocurrency market analysis platform that combines **AI-powered analysis** with **real-time market data** to provide intelligent investment recommendations. The platform uses OpenRouter's Gemini AI model to analyze market trends, news sentiment, and technical indicators to suggest the top cryptocurrencies to buy each week.
+
+### 🌟 Key Features
+
+- **🤖 AI-Powered Analysis**: Advanced market analysis using Google's Gemini 2.0 Flash model
+- **📊 Interactive Charts**: Real-time price predictions and market trend visualization
+- **📰 Latest News Integration**: Automated crypto news aggregation from NewsAPI
+- **📈 Price Predictions**: 7-day price forecasts with interactive charts
+- **📋 Analysis History**: Complete history of past analyses with search functionality
+- **🎨 Modern UI**: Beautiful, responsive interface with dark theme
+- **⚡ Real-time Updates**: Live market data and instant analysis updates
+
+## 📸 Screenshots
+
+### Main Dashboard
+![Main Dashboard](screenshots/main-dashboard.png)
+*The main dashboard showing latest crypto news, market analysis, and price prediction charts*
+
+### Analysis History
+![Analysis History](screenshots/analysis-history.png)
+*History page displaying all previous market analyses with search functionality*
+
+### Detailed Analysis View
+![Detailed Analysis](screenshots/detailed-analysis.png)
+*Detailed view showing comprehensive market analysis with methodology and recommendations*
+
+## 🛠️ Technology Stack
+
+### Frontend
+- **React 18.3+** with TypeScript
+- **Tailwind CSS** for styling
+- **Shadcn/UI** component library
+- **Recharts** for data visualization
+- **React Router** for navigation
+- **TanStack Query** for state management
+- **Sonner** for toast notifications
+
+### Backend
+- **Node.js** with Express
+- **Python 3.8+** for AI analysis
+- **OpenRouter API** (Gemini 2.0 Flash)
+- **NewsAPI** for crypto news
+- **CORS** enabled for cross-origin requests
+
+### AI & APIs
+- **Google Gemini 2.0 Flash** via OpenRouter
+- **NewsAPI** for cryptocurrency news
+- **Real-time market data** integration
+
+## 🚀 Installation & Setup
+
+### Prerequisites
+
+- Node.js 18+ and npm/yarn
+- Python 3.8+
+- OpenRouter API key
+- NewsAPI key
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/crypto-view-analyzer.git
+cd crypto-view-analyzer
+```
+
+### 2. Frontend Setup
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+The frontend will be available at `http://localhost:5173`
+
+### 3. Backend Setup
+
+```bash
+# Navigate to server directory
+cd server
+
+# Install Node.js dependencies
+npm install
+
+# Install Python dependencies
+pip install requests asyncio
+
+# Start the server
+npm start
+```
+
+The backend will be available at `http://localhost:5000`
+
+### 4. Configure API Keys
+
+Update the API keys in the Python files:
+
+**In `server/analyze_market.py`:**
+```python
+# Replace with your OpenRouter API key
+api_key = "sk-or-v1-your-openrouter-api-key-here"
+
+# Replace with your NewsAPI key  
+news_api_key = "your-newsapi-key-here"
+```
+
+**In `analyze_market.py` (root directory):**
+```python
+# Replace with your OpenRouter API key
+api_key = "sk-or-v1-your-openrouter-api-key-here"
+
+# Replace with your NewsAPI key
+news_api_key = "your-newsapi-key-here"
+```
+
+### 5. Get Your API Keys
+
+#### OpenRouter API Key
+1. Visit [OpenRouter.ai](https://openrouter.ai)
+2. Sign up for an account
+3. Navigate to API Keys section
+4. Generate a new API key
+5. Copy and paste it in the Python files
+
+#### NewsAPI Key
+1. Visit [NewsAPI.org](https://newsapi.org)
+2. Sign up for a free account
+3. Navigate to your dashboard
+4. Copy your API key
+5. Paste it in the Python files
+
+## 🎯 How to Use
+
+### 1. Start the Application
+
+1. **Start the backend server** (from `/server` directory):
+   ```bash
+   npm start
+   ```
+
+2. **Start the frontend** (from root directory):
+   ```bash
+   npm run dev
+   ```
+
+3. **Open your browser** and navigate to `http://localhost:5173`
+
+### 2. Generate Market Analysis
+
+1. Click the **"Update Analysis"** button on the main dashboard
+2. Wait for the AI to analyze current market conditions (10-30 seconds)
+3. View the comprehensive analysis with:
+   - Market outlook and sentiment
+   - Top 3 cryptocurrency recommendations
+   - Price predictions with interactive charts
+   - Risk assessments and investment strategies
+
+### 3. View Analysis History
+
+1. Click the **"History"** button in the header
+2. Browse through previous analyses
+3. Use the search functionality to find specific analyses
+4. Click **"View Details"** to see full analysis reports
+
+### 4. Interactive Features
+
+- **📊 Charts**: Hover over price prediction charts to see detailed data points
+- **📰 News**: Click on news headlines to read full articles
+- **🔍 Search**: Use the search functionality in history to find specific analyses
+- **📱 Responsive**: Access the platform on any device - desktop, tablet, or mobile
+
+## 🔧 Configuration
+
+### Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+
+### Customizing Analysis Parameters
+
+Edit the AI prompt in `server/analyze_market.py` to customize:
+- Analysis timeframe (currently set to 1 week)
+- Number of cryptocurrency recommendations (currently 3)
+- Analysis depth and focus areas
+- Chart prediction periods
+
+## 📊 API Endpoints
+
+### Backend Endpoints
+
+- `GET /api/current-analysis` - Get the latest analysis
+- `POST /api/analyze` - Generate new market analysis
+- `GET /api/analysis-history` - Get analysis history
+- `GET /api/analysis/:id` - Get specific analysis by ID
+
+### Python Scripts
+
+- `analyze_market.py` - Standalone analysis script
+- `server/analyze_market.py` - Server-integrated analysis script
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## ⚠️ Disclaimer
+
+**Important**: This tool is for educational and research purposes only. Cryptocurrency investments are inherently risky, and past performance is not indicative of future results. Always do your own research and consult with financial advisors before making investment decisions. The predictions and recommendations provided by this AI system should not be considered as financial advice.
+
+## 🙏 Acknowledgments
+
+- **OpenRouter** for providing access to advanced AI models
+- **NewsAPI** for cryptocurrency news data
+- **Google Gemini** for powerful AI analysis capabilities
+- **Shadcn/UI** for beautiful React components
+- **Recharts** for data visualization
+- **The crypto community** for inspiration and feedback
+
+## 📞 Support
+
+If you encounter any issues or have questions:
+
+1. Check the [Issues](https://github.com/yourusername/crypto-view-analyzer/issues) page
+2. Create a new issue with detailed information
+3. Join our community discussions
 
 ---
 
-**1. Current Market Outlook:**
+**Made with ❤️ for the crypto community**
 
-The current market sentiment is cautiously **bullish**, driven by recent positive inflation data, potential for a bottoming out of the macroeconomic environment, and anticipation surrounding Bitcoin ETF approvals. However, volatility remains high due to persistent macroeconomic uncertainty and regulatory scrutiny. Altcoins are showing signs of recovery, with some outperforming Bitcoin in specific sectors.
-
-**2. Selection Methodology:**
-
-The selection of cryptocurrencies is based on a combination of fundamental, technical, and sentiment analysis. This week's selection focuses on coins that:
-
-*   **Show strong recent performance & momentum:** Coins demonstrating relative strength in the last week, indicating investor interest.
-*   **Have upcoming catalysts:** Coins with scheduled events that could positively impact price, like mainnet upgrades, partnerships, or influential conference presentations.
-*   **Benefit from current market narratives:** Coins positioned to capitalize on prevalent themes like DeFi development and layer 2 scaling solutions.
-*   **Have manageable risks:** Avoiding coins with significant, immediate regulatory headwinds or known security vulnerabilities.
-*   **Capitalize on low timeframes:** Coins demonstrating momentum that can allow for quick profit generation, and a fast exit
-
-**3. Cryptocurrency Analysis:**
-
-Here are the top 3 cryptocurrencies to buy this week, along with the reasoning and target exit dates:
-
-**A. Ethereum (ETH)**
-
-*   **Core rationale for potential profit:** Ethereum continues to benefit from network effects and growing adoption as a foundational layer in the blockchain ecosystem. The success of staking, alongside the overall narrative of DeFi growth, makes ETH a strong candidate for continued appreciation.
-*   **Key strengths & catalysts:**
-    *   **Upcoming: Dencun Upgrade:** This represents its continual improvement as an ecosystem
-    *   **Continued dominance for Ethereum-standard tokens:** ETH acts as the bedrock for all of the popular altcoins, and as a result, provides strong confidence to the network
-    *   **Strong network effects:** Its continued utility creates an ecosystem that is very sticky. As a result, users become increasingly vested in ensuring it survives.
-*   **Risks & potential downsides:**
-    *   **Scalability concerns persisting:** Future upgrades may still prove controversial, as the network continues to adapt.
-    *   **Regulatory uncertainty:** Increased scrutiny of DeFi could negatively impact ETH.
-    *   **Competition:** There still is a threat of "ETH-Killers" that could potentially outcompete it with better technology
-*   **Relevance to the current market narrative:** Ethereum aligns with the ongoing narratives of scalability, and DeFi growth, which are currently driving investor interest.
-
-**Selling Target Date:** November 3, 2023
-
-**B. Solana (SOL)**
-
-*   **Core rationale for potential profit:** A long-term favorite in the ecosystem, Solana is recovering after a sharp drop. After regaining the support of Vitalik Buterin, it has demonstrated resilience that is making a comeback into the spotlight.
-*   **Key strengths & catalysts:**
-    *   **Upcoming: "Solana Breakpoint 2023" -** A major conference that is occurring in the coming week, it is widely expected that many updates to the ecosystem will be presented
-    *   **Cheap Transaction Fees:** Compared to blockchains like Etheruem or Bitcoin, Solana is renowned for its ability to transact at a rapid pace with a cheap price.
-    *   **Recovery:** The ecosystem has had a tough time in the past year, but it is demonstrating a comeback that is making people optimistic. 
-*   **Risks & potential downsides:**
-    *   **Centralization:** Solana's centralized design has been controversial, and may not be compatible with certain investors.
-    *   **History:** Its previous ties with FTX may turn off some investors
-*   **Relevance to the current market narrative:** Fast and innovative, Solana is starting to make an attempt to be a relevant player.
-
-**Selling Target Date:** November 3, 2023
-
-**C. Avalanche (AVAX)**
-
-*   **Core rationale for potential profit:** A top contender for the Layer 2 spot, Avalanche is taking strides to compete with those in the space. It is experiencing a revival due to its recent technical developments, its strong marketing, as well as its strong incentives that encourage the support of its network.
-*   **Key strengths & catalysts:**
-    *   **Upcoming: AVAX House -** There are whispers of an event or meeting that will be used to introduce some of the new aspects of the ecosystem. Expect positive announcements and new information being released!
-    *   **New Developments:** The ecosystem is taking strides and improving with new tech
-    *   **Strong Marketing:** The overall team has done a decent job of creating a network that demonstrates itself as innovative and novel
-*   **Risks & potential downsides:**
-    *   **Competition:** There are other chains attempting to dethrone the champion, and it is not a guarantee that AVAX will be on top
-    *   **Volatility:** The blockchain isn't stable, and has recently taken strides to improve. Any mistakes during this period may be a costly one.
-*   **Relevance to the current market narrative:** Fast and innovative, Avalanche is attempting to take strides in the Layer 2 realm
-
-**Selling Target Date:** November 3, 2023
-
-**4. Portfolio Recommendation:**
-
-Based on the analysis, a balanced portfolio can be constructed as follows:
-
-*   **ETH: 40%** - Offers stability and potential for growth.
-*   **SOL: 30%** - Offers high growth potential, but also higher risk.
-*   **AVAX: 30%** - Offers high growth potential, but also higher risk.
-
-**5. Time Horizon:**
-
-This strategy is primarily for **short-term (one week)** gains, capitalizing on market momentum and upcoming catalysts. If longer hold times are sought, I recommend researching for new updates to alter an allocation of this portfolio.
-
-**Disclaimer:** Cryptocurrency investments are highly speculative and volatile. You could lose all your investment. Conduct thorough research and consult a financial advisor before investing. This is not financial advice.
-
-
-## Last Updated:
-2025-05-13 01:43:19
+*Last Updated: 2025-05-24*

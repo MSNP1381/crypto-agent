@@ -1,13 +1,16 @@
+
+#!/usr/bin/env python3
 import asyncio
 import requests
+import json
 from datetime import datetime
 
 # تنظیمات OpenRouter با API Key به صورت مستقیم
-api_key = "YOUR_OPENROUTER_API_KEY"  # Replace with your actual OpenRouter API key
+api_key = ""  # Your OpenRouter API key
 base_url = "https://openrouter.ai/api/v1"
 
 # NewsAPI Key (شما باید API Key خود را از NewsAPI بگیرید)
-news_api_key = "YOUR_API_NEWS_KEY"  # Replace with your actual NewsAPI key
+news_api_key = ""  # Your NewsAPI key
 news_base_url = "https://newsapi.org/v2/everything"
 
 # تابع برای جستجوی اخبار از NewsAPI
@@ -41,8 +44,8 @@ async def analyze_market():
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
-        "X-Title": "<YOUR_SITE_NAME>",  # Optional: Site title for rankings on openrouter.ai
-        "HTTP-Referer": "<YOUR_SITE_URL>"  # Optional: Site URL for rankings on openrouter.ai
+        "X-Title": "Crypto View Analyzer",  # Updated site title
+        "HTTP-Referer": "https://crypto-view-analyzer.com"  # Updated site URL
     }
 
     # داده‌هایی که باید به API ارسال شوند
@@ -74,7 +77,27 @@ async def analyze_market():
                 5. **Time Horizon**: Your analysis should suggest a time horizon for each of the cryptocurrencies (short-term, mid-term).
                 
                 Make sure your recommendations are based on real-time data, trends, and news. Focus on maximizing profit potential for this week.
+
+                For each cryptocurrency, include price predictions for the next 7 days. Format this data as follows at the end of each cryptocurrency section:
+
+                ```chart
+                {
+                  "type": "line",
+                  "title": "[Cryptocurrency Name] Price Prediction",
+                  "dataPoints": [
+                    {"date": "[Today's Date]", "value": [Current Price], "prediction": [Current Price]},
+                    {"date": "[Date+1]", "value": null, "prediction": [Predicted Price]},
+                    {"date": "[Date+2]", "value": null, "prediction": [Predicted Price]},
+                    {"date": "[Date+3]", "value": null, "prediction": [Predicted Price]},
+                    {"date": "[Date+4]", "value": null, "prediction": [Predicted Price]},
+                    {"date": "[Date+5]", "value": null, "prediction": [Predicted Price]},
+                    {"date": "[Date+6]", "value": null, "prediction": [Predicted Price]}
+                  ]
+                }
+                ```
                 
+                Use emojis for headings and key points to make the analysis more visually appealing.
+
                 **Please provide the result in a clean Markdown format for easy reading and interpretation.** Additionally, include the **last update date** at the end of the document.
                 """
             }
@@ -124,8 +147,8 @@ Here are the latest headlines related to the cryptocurrency market:
 {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 """
 
-            # ذخیره خروجی در فایل README.md
-            with open("README.md", "w") as f:
+            # ذخیره خروجی در فایل README.md - از مسیر نسبی استفاده می‌کنیم
+            with open("../README.md", "w") as f:
                 f.write(markdown_output)
 
             return market_analysis
@@ -147,4 +170,3 @@ async def get_cryptocurrency_recommendations():
 if __name__ == "__main__":
     # اجرای غیرهمزمان برای تحلیل بازار
     asyncio.run(get_cryptocurrency_recommendations())
-
